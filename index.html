@@ -4,17 +4,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sophia Williams - Portfolio</title>
+  <title>Juniper Chen - Portfolio</title>
   <link rel="icon" type="image/x-icon" href="dist/assets/favicon.ico" />
+
+  <!-- Inter 字体（放在任何 CSS 之前） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-10..0,100..900&display=swap" rel="stylesheet">
+
+  <!-- 只保留你本地构建的 Tailwind 输出 -->
   <link rel="stylesheet" href="dist/output.css" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- 官网同款字体 Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-  </style>
+
+  <!-- 你的图片清单脚本 -->
   <script src="imagelist.js"></script>
 </head>
 
@@ -22,12 +23,11 @@
   <!-- 背景格纹（全屏） -->
   <div class="absolute inset-0 -z-10 bg-grid-dark"></div>
 
-
   <!-- 导航栏 -->
   <header class="sticky top-0 z-20 w-full border-b border-white/10 bg-zinc-950/80 backdrop-blur">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
-        <a href="#" class="text-xl font-bold text-white">Sophia Williams</a>
+        <a href="#" class="text-xl font-bold text-white">Juniper Chen</a>
         <nav class="hidden md:flex space-x-8 text-sm font-medium">
           <a href="#grid" class="text-zinc-300 hover:text-white">Portfolio</a>
           <a href="#about" class="text-zinc-300 hover:text-white">About</a>
@@ -58,12 +58,26 @@
   <!-- Portfolio 原始布局 -->
   <div id="grid" class="container mx-auto py-12 px-6 relative z-10">
     <h2 class="text-2xl font-bold mb-6">Portfolio</h2>
+
+    <!-- 左边虚线 -->
+    <div class="absolute inset-y-0 left-0 w-[20px] z-30 pointer-events-none vline-dark dark:vline-dark"></div>
+
+    <!-- 右边虚线 -->
+    <div class="absolute top-0 bottom-0 right-0 w-[20px] pointer-events-none vline-dark dark:vline-dark"></div>
+
     <div id="portfolioWrapper" class="flex flex-wrap w-full"></div>
   </div>
 
+
+  <!-- About（可选，占位） -->
+  <section id="about" class="mx-auto max-w-7xl px-6 py-12">
+    <h2 class="text-2xl font-bold mb-4">About</h2>
+    <p class="text-zinc-400">Short bio or statement goes here.</p>
+  </section>
+
   <!-- Footer -->
   <footer id="contact" class="py-12 text-center text-sm text-zinc-500">
-    © 2023 Sophia Williams
+    © 2025 Juniper Chen
   </footer>
 
   <!-- 脚本 -->
@@ -71,29 +85,26 @@
     // 移动菜单
     const btn = document.getElementById("menuBtn");
     const menu = document.getElementById("mobileMenu");
-    btn.addEventListener("click", () => { menu.classList.toggle("hidden"); });
+    btn?.addEventListener("click", () => { menu.classList.toggle("hidden"); });
 
     // 渲染图片：保留原来的“flex + 多列”布局
     const wrapper = document.getElementById("portfolioWrapper");
-
     const leftCol = document.createElement("div");
     leftCol.className = "flex w-full md:w-1/2 flex-wrap";
-
     const rightCol = document.createElement("div");
     rightCol.className = "flex w-full md:w-1/2 flex-wrap";
 
-    window.IMAGES.forEach((img, i) => {
+    (window.IMAGES || []).forEach((img, i) => {
       const box = document.createElement("div");
       box.className = "w-full md:w-1/2 p-1";
       box.innerHTML = `
         <div class="overflow-hidden h-full w-full">
-          <a href="${img.full}" target="_blank">
-            <img src="${img.thumb}" alt="${img.alt}"
+          <a href="${img.full}" target="_blank" rel="noreferrer">
+            <img src="${img.thumb}" alt="${img.alt || ''}"
                  class="block h-full w-full object-cover object-center transition-transform hover:scale-110" />
           </a>
         </div>`;
-      if (i % 2 === 0) leftCol.appendChild(box);
-      else rightCol.appendChild(box);
+      (i % 2 === 0 ? leftCol : rightCol).appendChild(box);
     });
 
     wrapper.appendChild(leftCol);
