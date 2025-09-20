@@ -7,6 +7,14 @@
 /* 全局字体设置 */
 html,
 body {
+  background-color: #ffffff;
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.dark html,
+.dark body {
+  background-color: #0a0a0a;
   font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
 }
@@ -62,39 +70,35 @@ body {
     }
   }
 
-  /* 背景格纹工具类 */
-  .bg-grid {
-    background-image:
-      linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
-    background-size: 32px 32px;
-    background-position: top left;
-  }
+}
 
-  .bg-grid-dark {
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 32px 32px;
-    background-position: top left;
-  }
+/* === 背景格纹（亮/暗）=== */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: top left;
+}
 
-  /* === 垂直虚线工具类 === */
-  .vline-light {
-    background-image: repeating-linear-gradient(135deg,
-        rgba(0, 0, 0, 0.5) 0px,
-        rgba(0, 0, 0, 0.5) 2px,
-        transparent 2px,
-        transparent 12px);
-    background-size: 12px 12px;
-  }
+.dark .bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
 
-  .vline-dark {
-    background-image: repeating-linear-gradient(315deg,
-        rgba(255, 255, 255, 0.5) 0px,
-        rgba(255, 255, 255, 0.5) 2px,
-        transparent 2px,
-        transparent 12px);
-    background-size: 12px 12px;
-  }
+/* === 侧边斜向虚线（亮/暗）=== */
+.vline {
+  --pattern-fg: rgba(0, 0, 0, 0.15);
+  background-image: repeating-linear-gradient(315deg,
+      var(--pattern-fg) 0,
+      var(--pattern-fg) 1px,
+      transparent 0,
+      transparent 50%);
+  background-size: 7px 7px;
+  background-attachment: fixed;
+}
+
+.dark .vline {
+  --pattern-fg: rgba(255, 255, 255, 0.25);
 }

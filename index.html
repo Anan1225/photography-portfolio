@@ -7,6 +7,36 @@
   <title>Juniper Chen - Portfolio</title>
   <link rel="icon" type="image/x-icon" href="dist/assets/favicon.ico" />
 
+  <!-- 在任何 CSS 之前：首屏无闪烁主题注入（新增） -->
+  <script>
+    (function () {
+      try {
+        const LS_KEY = 'theme'; // 'light' | 'dark' | 'system'
+        const saved = localStorage.getItem(LS_KEY);
+        const root = document.documentElement;
+        const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+        function apply(mode) {
+          if (mode === 'dark') root.classList.add('dark');
+          else if (mode === 'light') root.classList.remove('dark');
+          else root.classList.toggle('dark', mq.matches); // system
+        }
+
+        // 初始化：优先本地，其次系统
+        const initial = saved === 'light' || saved === 'dark' || saved === 'system' ? saved : 'system';
+        apply(initial);
+
+        // 若为 system，监听系统变更自动切换
+        if (initial === 'system') {
+          try { mq.addEventListener('change', () => apply('system')); }
+          catch { mq.addListener && mq.addListener(() => apply('system')); }
+        }
+        // 将初始值存回（避免 null）
+        if (!saved) localStorage.setItem(LS_KEY, 'system');
+      } catch { }
+    })();
+  </script>
+
   <!-- Inter 字体（放在任何 CSS 之前） -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,51 +49,74 @@
   <script src="imagelist.js"></script>
 </head>
 
-<body class="relative min-h-screen bg-zinc-950 text-zinc-100">
-  <!-- 背景格纹（全屏） -->
-  <div class="absolute inset-0 -z-10 bg-grid-dark"></div>
+<!-- 改：用暗色前缀适配两套配色 -->
 
-  <!-- 导航栏 -->
-  <header class="sticky top-0 z-20 w-full border-b border-white/10 bg-zinc-950/80 backdrop-blur">
+<body class="relative min-h-screen bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+
+  <!-- 背景格纹 -->
+  <div class="fixed inset-0 z-0 pointer-events-none bg-white dark:bg-zinc-950 bg-grid"></div>
+
+  <!-- 导航栏：改为明暗自适应背景和边框 -->
+  <header
+    class="sticky top-0 z-20 w-full border-b border-black/10 bg-white/80 backdrop-blur dark:border-white/10 dark:bg-zinc-950/80">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
-        <a href="#" class="text-xl font-bold text-white">Juniper Chen</a>
-        <nav class="hidden md:flex space-x-8 text-sm font-medium">
-          <a href="#grid" class="text-zinc-300 hover:text-white">Portfolio</a>
-          <a href="#about" class="text-zinc-300 hover:text-white">About</a>
-          <a href="#contact" class="text-zinc-300 hover:text-white">Contact</a>
+        <a href="#" class="text-xl font-bold">Juniper Chen</a>
+
+        <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <a href="#grid" class="text-zinc-700 hover:text-black dark:text-zinc-300 dark:hover:text-white">Portfolio</a>
+          <a href="#about" class="text-zinc-700 hover:text-black dark:text-zinc-300 dark:hover:text-white">About</a>
+          <a href="#contact" class="text-zinc-700 hover:text-black dark:text-zinc-300 dark:hover:text-white">Contact</a>
+
+          <!-- 主题按钮（新增） -->
+          <button id="themeBtn"
+            class="ml-2 inline-flex items-center gap-2 rounded-xl border border-black/10 px-3 py-1.5 text-sm text-zinc-800 hover:bg-black/5 dark:border-white/10 dark:text-zinc-200 dark:hover:bg-white/5"
+            type="button" aria-label="Toggle theme" title="Light / Dark / System">
+            <span id="themeIcon" aria-hidden="true"></span>
+            <span id="themeLabel" class="hidden sm:inline">System</span>
+          </button>
         </nav>
-        <button id="menuBtn" class="md:hidden text-zinc-300 hover:text-white">☰</button>
+
+        <div class="flex items-center md:hidden gap-3">
+          <!-- 移动端主题按钮（新增） -->
+          <button id="themeBtnM" class="text-zinc-700 hover:text-black dark:text-zinc-300 dark:hover:text-white"
+            aria-label="Toggle theme">
+            <span id="themeIconM" aria-hidden="true"></span>
+          </button>
+          <button id="menuBtn"
+            class="text-zinc-700 hover:text-black dark:text-zinc-300 dark:hover:text-white">☰</button>
+        </div>
       </div>
     </div>
-    <div id="mobileMenu" class="hidden md:hidden border-t border-white/10 bg-zinc-900">
+    <div id="mobileMenu"
+      class="hidden md:hidden border-t border-black/10 bg-white dark:border-white/10 dark:bg-zinc-900">
       <nav class="px-6 py-4 space-y-4 text-sm">
-        <a href="#grid" class="block text-zinc-300 hover:text-white">Portfolio</a>
-        <a href="#about" class="block text-zinc-300 hover:text-white">About</a>
-        <a href="#contact" class="block text-zinc-300 hover:text-white">Contact</a>
+        <a href="#grid"
+          class="block text-zinc-700 hover:text-black dark:text-zinc-300 dark:hover:text-white">Portfolio</a>
+        <a href="#about" class="block text-zinc-700 hover:text-black dark:text-zinc-300 dark:hover:text-white">About</a>
+        <a href="#contact"
+          class="block text-zinc-700 hover:text-black dark:text-zinc-300 dark:hover:text-white">Contact</a>
       </nav>
     </div>
   </header>
 
   <!-- Hero -->
   <section class="relative mx-auto max-w-7xl px-6 pt-16">
-    <h1 class="font-bold tracking-tight text-4xl sm:text-6xl lg:text-7xl text-white">
+    <h1 class="font-bold tracking-tight text-4xl sm:text-6xl lg:text-7xl">
       Capturing the World Through My Lens
     </h1>
-    <p class="mt-6 max-w-2xl text-zinc-400">
+    <p class="mt-6 max-w-2xl text-zinc-600 dark:text-zinc-400">
       A collection of photography works, from nature to urban exploration.
     </p>
   </section>
 
   <!-- Portfolio 原始布局 -->
-  <div id="grid" class="container mx-auto py-12 px-6 relative z-10">
+  <div id="grid" class="relative container mx-auto py-12 px-6 z-10 w-full">
     <h2 class="text-2xl font-bold mb-6">Portfolio</h2>
 
-    <!-- 左边虚线 -->
-    <div class="absolute inset-y-0 left-0 w-[20px] z-30 pointer-events-none vline-dark dark:vline-dark"></div>
-
-    <!-- 右边虚线 -->
-    <div class="absolute top-0 bottom-0 right-0 w-[20px] pointer-events-none vline-dark dark:vline-dark"></div>
+    <!-- 左右虚线 -->
+    <div class="absolute inset-y-0 left-0 w-[20px] z-30 pointer-events-none vline"></div>
+    <div class="absolute inset-y-0 right-0 w-[20px] z-30 pointer-events-none vline"></div>
 
     <div id="portfolioWrapper" class="flex flex-wrap w-full"></div>
   </div>
@@ -72,7 +125,7 @@
   <!-- About（可选，占位） -->
   <section id="about" class="mx-auto max-w-7xl px-6 py-12">
     <h2 class="text-2xl font-bold mb-4">About</h2>
-    <p class="text-zinc-400">Short bio or statement goes here.</p>
+    <p class="text-zinc-600 dark:text-zinc-400">Short bio or statement goes here.</p>
   </section>
 
   <!-- Footer -->
@@ -82,17 +135,46 @@
 
   <!-- 脚本 -->
   <script>
-    // 移动菜单
-    const btn = document.getElementById("menuBtn");
+    // ===== 移动菜单 =====
+    const menuBtn = document.getElementById("menuBtn");
     const menu = document.getElementById("mobileMenu");
-    btn?.addEventListener("click", () => { menu.classList.toggle("hidden"); });
+    menuBtn?.addEventListener("click", () => { menu.classList.toggle("hidden"); });
 
-    // 渲染图片：保留原来的“flex + 多列”布局
+    // ===== 渲染图片：保留原“flex + 多列” =====
     const wrapper = document.getElementById("portfolioWrapper");
     const leftCol = document.createElement("div");
     leftCol.className = "flex w-full md:w-1/2 flex-wrap";
     const rightCol = document.createElement("div");
     rightCol.className = "flex w-full md:w-1/2 flex-wrap";
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.getElementById('portfolioWrapper');
+      const vlines = document.querySelectorAll('.vline');
+      if (wrapper && vlines.length) {
+        const rect = wrapper.getBoundingClientRect();
+        vlines.forEach(v => {
+          v.style.height = rect.height + 'px';
+          v.style.top = wrapper.offsetTop + 'px';
+        });
+      }
+    });
+
+    // ...existing code...
+    window.addEventListener('DOMContentLoaded', () => {
+      const wrapper = document.getElementById('portfolioWrapper');
+      const vlineLeft = document.getElementById('vline-left');
+      const vlineRight = document.getElementById('vline-right');
+      if (wrapper && vlineLeft && vlineRight) {
+        const rect = wrapper.getBoundingClientRect();
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        vlineLeft.style.top = (rect.top + scrollTop) + 'px';
+        vlineLeft.style.height = rect.height + 'px';
+        vlineRight.style.top = (rect.top + scrollTop) + 'px';
+        vlineRight.style.height = rect.height + 'px';
+      }
+    });
+    // ...existing code...
+
 
     (window.IMAGES || []).forEach((img, i) => {
       const box = document.createElement("div");
@@ -109,6 +191,82 @@
 
     wrapper.appendChild(leftCol);
     wrapper.appendChild(rightCol);
+
+    // ===== 主题切换：Light / Dark / System 三态 =====
+    (function () {
+      const LS_KEY = 'theme';
+      const root = document.documentElement;
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+      const btn = document.getElementById('themeBtn');
+      const icon = document.getElementById('themeIcon');
+      const label = document.getElementById('themeLabel');
+
+      const btnM = document.getElementById('themeBtnM');
+      const iconM = document.getElementById('themeIconM');
+
+      function getMode() {
+        const v = localStorage.getItem(LS_KEY);
+        return (v === 'light' || v === 'dark' || v === 'system') ? v : 'system';
+      }
+
+      function setMode(mode) {
+        localStorage.setItem(LS_KEY, mode);
+        apply(mode);
+        updateUI(mode);
+        // 系统跟随监听
+        if (mode === 'system') {
+          try { mq.addEventListener('change', onSystemChange); }
+          catch { mq.addListener && mq.addListener(onSystemChange); }
+        } else {
+          try { mq.removeEventListener('change', onSystemChange); }
+          catch { mq.removeListener && mq.removeListener(onSystemChange); }
+        }
+      }
+
+      function onSystemChange() {
+        if (getMode() === 'system') apply('system');
+      }
+
+      function apply(mode) {
+        if (mode === 'dark') root.classList.add('dark');
+        else if (mode === 'light') root.classList.remove('dark');
+        else root.classList.toggle('dark', mq.matches);
+      }
+
+      // 简单图标（SVG 字符串）
+      const ICONS = {
+        light: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0 4a1 1 0 0 1-1-1v-1a1 1 0 1 1 2 0v1a1 1 0 0 1-1 1Zm0-19a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1ZM4 11a1 1 0 1 1 0 2H3a1 1 0 1 1 0-2h1Zm17 0a1 1 0 1 1 0 2h-1a1 1 0 1 1 0-2h1ZM6.22 6.22a1 1 0 0 1 1.42 0l.7.7a1 1 0 0 1-1.42 1.42l-.7-.7a1 1 0 0 1 0-1.42Zm9.44 9.44a1 1 0 0 1 1.42 0l.7.7a1 1 0 0 1-1.42 1.42l-.7-.7a1 1 0 0 1 0-1.42Zm1.42-9.44a1 1 0 0 1 0 1.42l-.7.7a1 1 0 1 1-1.42-1.42l.7-.7a1 1 0 0 1 1.42 0ZM7.64 16.36a1 1 0 0 1 0 1.42l-.7.7a1 1 0 0 1-1.42-1.42l.7-.7a1 1 0 0 1 1.42 0Z"/></svg>',
+        dark: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z"/></svg>',
+        system: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-6.364 15.364A9 9 0 1 0 12 3Zm0 2a7 7 0 0 1 5.657 10.899A9 9 0 0 0 12 5Z"/></svg>'
+      };
+
+      function updateUI(mode) {
+        const text = (mode[0].toUpperCase() + mode.slice(1));
+        if (icon) icon.innerHTML = ICONS[mode];
+        if (label) label.textContent = text;
+        if (iconM) iconM.innerHTML = ICONS[mode];
+        // 按钮 title 同步
+        const title = `Current: ${text}`;
+        if (btn) btn.title = title;
+        if (btnM) btnM.title = title;
+      }
+
+      function cycle(mode) {
+        return mode === 'light' ? 'dark' : mode === 'dark' ? 'system' : 'light';
+      }
+
+      // 初始化按钮展示
+      updateUI(getMode());
+
+      // 绑定事件（桌面与移动）
+      function onClick() {
+        const next = cycle(getMode());
+        setMode(next);
+      }
+      btn?.addEventListener('click', onClick);
+      btnM?.addEventListener('click', onClick);
+    })();
   </script>
 </body>
 

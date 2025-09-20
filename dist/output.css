@@ -17,9 +17,13 @@
     --color-gray-800: oklch(27.8% 0.033 256.848);
     --color-gray-900: oklch(21% 0.034 264.665);
     --color-zinc-100: oklch(96.7% 0.001 286.375);
+    --color-zinc-200: oklch(92% 0.004 286.32);
     --color-zinc-300: oklch(87.1% 0.006 286.286);
     --color-zinc-400: oklch(70.5% 0.015 286.067);
     --color-zinc-500: oklch(55.2% 0.016 285.938);
+    --color-zinc-600: oklch(44.2% 0.017 285.786);
+    --color-zinc-700: oklch(37% 0.013 285.805);
+    --color-zinc-800: oklch(27.4% 0.006 286.033);
     --color-zinc-900: oklch(21% 0.006 285.885);
     --color-zinc-950: oklch(14.1% 0.005 285.823);
     --color-neutral-800: oklch(26.9% 0 0);
@@ -54,6 +58,7 @@
     --font-weight-bold: 700;
     --tracking-tight: -0.025em;
     --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
     --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --default-transition-duration: 150ms;
@@ -228,6 +233,9 @@
   .absolute {
     position: absolute;
   }
+  .fixed {
+    position: fixed;
+  }
   .relative {
     position: relative;
   }
@@ -258,11 +266,8 @@
   .left-1\/2 {
     left: calc(1/2 * 100%);
   }
-  .left-6 {
-    left: calc(var(--spacing) * 6);
-  }
-  .-z-10 {
-    z-index: calc(10 * -1);
+  .z-0 {
+    z-index: 0;
   }
   .z-10 {
     z-index: 10;
@@ -333,6 +338,9 @@
   .mb-6 {
     margin-bottom: calc(var(--spacing) * 6);
   }
+  .ml-2 {
+    margin-left: calc(var(--spacing) * 2);
+  }
   .ml-auto {
     margin-left: auto;
   }
@@ -347,6 +355,9 @@
   }
   .hidden {
     display: none;
+  }
+  .inline-flex {
+    display: inline-flex;
   }
   .aspect-square {
     aspect-ratio: 1 / 1;
@@ -466,6 +477,12 @@
   .justify-start {
     justify-content: flex-start;
   }
+  .gap-2 {
+    gap: calc(var(--spacing) * 2);
+  }
+  .gap-3 {
+    gap: calc(var(--spacing) * 3);
+  }
   .gap-8 {
     gap: calc(var(--spacing) * 8);
   }
@@ -496,13 +513,6 @@
       margin-inline-end: calc(calc(var(--spacing) * 6) * calc(1 - var(--tw-space-x-reverse)));
     }
   }
-  .space-x-8 {
-    :where(& > :not(:last-child)) {
-      --tw-space-x-reverse: 0;
-      margin-inline-start: calc(calc(var(--spacing) * 8) * var(--tw-space-x-reverse));
-      margin-inline-end: calc(calc(var(--spacing) * 8) * calc(1 - var(--tw-space-x-reverse)));
-    }
-  }
   .overflow-hidden {
     overflow: hidden;
   }
@@ -511,6 +521,9 @@
   }
   .rounded-lg {
     border-radius: var(--radius-lg);
+  }
+  .rounded-xl {
+    border-radius: var(--radius-xl);
   }
   .border {
     border-style: var(--tw-border-style);
@@ -524,17 +537,17 @@
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
   }
+  .border-black\/10 {
+    border-color: color-mix(in srgb, #000 10%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-black) 10%, transparent);
+    }
+  }
   .border-gray-100 {
     border-color: var(--color-gray-100);
   }
   .border-gray-300 {
     border-color: var(--color-gray-300);
-  }
-  .border-white\/10 {
-    border-color: color-mix(in srgb, #fff 10%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      border-color: color-mix(in oklab, var(--color-white) 10%, transparent);
-    }
   }
   .bg-black {
     background-color: var(--color-black);
@@ -548,16 +561,10 @@
   .bg-white {
     background-color: var(--color-white);
   }
-  .bg-zinc-900 {
-    background-color: var(--color-zinc-900);
-  }
-  .bg-zinc-950 {
-    background-color: var(--color-zinc-950);
-  }
-  .bg-zinc-950\/80 {
-    background-color: color-mix(in srgb, oklch(14.1% 0.005 285.823) 80%, transparent);
+  .bg-white\/80 {
+    background-color: color-mix(in srgb, #fff 80%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-zinc-950) 80%, transparent);
+      background-color: color-mix(in oklab, var(--color-white) 80%, transparent);
     }
   }
   .object-cover {
@@ -578,11 +585,17 @@
   .p-5 {
     padding: calc(var(--spacing) * 5);
   }
+  .px-3 {
+    padding-inline: calc(var(--spacing) * 3);
+  }
   .px-5 {
     padding-inline: calc(var(--spacing) * 5);
   }
   .px-6 {
     padding-inline: calc(var(--spacing) * 6);
+  }
+  .py-1\.5 {
+    padding-block: calc(var(--spacing) * 1.5);
   }
   .py-3 {
     padding-block: calc(var(--spacing) * 3);
@@ -686,17 +699,20 @@
   .text-white {
     color: var(--color-white);
   }
-  .text-zinc-100 {
-    color: var(--color-zinc-100);
-  }
-  .text-zinc-300 {
-    color: var(--color-zinc-300);
-  }
-  .text-zinc-400 {
-    color: var(--color-zinc-400);
-  }
   .text-zinc-500 {
     color: var(--color-zinc-500);
+  }
+  .text-zinc-600 {
+    color: var(--color-zinc-600);
+  }
+  .text-zinc-700 {
+    color: var(--color-zinc-700);
+  }
+  .text-zinc-800 {
+    color: var(--color-zinc-800);
+  }
+  .text-zinc-900 {
+    color: var(--color-zinc-900);
   }
   .underline {
     text-decoration-line: underline;
@@ -775,10 +791,20 @@
       }
     }
   }
-  .hover\:text-white {
+  .hover\:bg-black\/5 {
     &:hover {
       @media (hover: hover) {
-        color: var(--color-white);
+        background-color: color-mix(in srgb, #000 5%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--color-black) 5%, transparent);
+        }
+      }
+    }
+  }
+  .hover\:text-black {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-black);
       }
     }
   }
@@ -804,6 +830,11 @@
   .sm\:col-span-2 {
     @media (width >= 40rem) {
       grid-column: span 2 / span 2;
+    }
+  }
+  .sm\:inline {
+    @media (width >= 40rem) {
+      display: inline;
     }
   }
   .sm\:w-fit {
@@ -943,6 +974,14 @@
       border-color: var(--color-neutral-800);
     }
   }
+  .dark\:border-white\/10 {
+    @media (prefers-color-scheme: dark) {
+      border-color: color-mix(in srgb, #fff 10%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        border-color: color-mix(in oklab, var(--color-white) 10%, transparent);
+      }
+    }
+  }
   .dark\:bg-black {
     @media (prefers-color-scheme: dark) {
       background-color: var(--color-black);
@@ -956,6 +995,24 @@
   .dark\:bg-white {
     @media (prefers-color-scheme: dark) {
       background-color: var(--color-white);
+    }
+  }
+  .dark\:bg-zinc-900 {
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-zinc-900);
+    }
+  }
+  .dark\:bg-zinc-950 {
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-zinc-950);
+    }
+  }
+  .dark\:bg-zinc-950\/80 {
+    @media (prefers-color-scheme: dark) {
+      background-color: color-mix(in srgb, oklch(14.1% 0.005 285.823) 80%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-zinc-950) 80%, transparent);
+      }
     }
   }
   .dark\:text-black {
@@ -983,6 +1040,26 @@
       color: var(--color-white);
     }
   }
+  .dark\:text-zinc-100 {
+    @media (prefers-color-scheme: dark) {
+      color: var(--color-zinc-100);
+    }
+  }
+  .dark\:text-zinc-200 {
+    @media (prefers-color-scheme: dark) {
+      color: var(--color-zinc-200);
+    }
+  }
+  .dark\:text-zinc-300 {
+    @media (prefers-color-scheme: dark) {
+      color: var(--color-zinc-300);
+    }
+  }
+  .dark\:text-zinc-400 {
+    @media (prefers-color-scheme: dark) {
+      color: var(--color-zinc-400);
+    }
+  }
   .dark\:placeholder-gray-400 {
     @media (prefers-color-scheme: dark) {
       &::placeholder {
@@ -990,8 +1067,34 @@
       }
     }
   }
+  .dark\:hover\:bg-white\/5 {
+    @media (prefers-color-scheme: dark) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: color-mix(in srgb, #fff 5%, transparent);
+          @supports (color: color-mix(in lab, red, red)) {
+            background-color: color-mix(in oklab, var(--color-white) 5%, transparent);
+          }
+        }
+      }
+    }
+  }
+  .dark\:hover\:text-white {
+    @media (prefers-color-scheme: dark) {
+      &:hover {
+        @media (hover: hover) {
+          color: var(--color-white);
+        }
+      }
+    }
+  }
 }
 html, body {
+  background-color: #ffffff;
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.dark html, .dark body {
+  background-color: #0a0a0a;
   font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 @layer utilities {
@@ -1034,22 +1137,23 @@ html, body {
       transform: rotate(0deg);
     }
   }
-  .bg-grid {
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
-    background-size: 32px 32px;
-    background-position: top left;
-  }
-  .bg-grid-dark {
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 32px 32px;
-    background-position: top left;
-  }
-  .vline-light {
-    background-image: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0px, rgba(0, 0, 0, 0.35) 4px, transparent 4px, transparent 8px);
-  }
-  .vline-dark {
-    background-image: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.35) 0px, rgba(255, 255, 255, 0.35) 4px, transparent 4px, transparent 8px);
-  }
+}
+.bg-grid {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: top left;
+}
+.dark .bg-grid {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+.vline {
+  --pattern-fg: rgba(0, 0, 0, 0.15);
+  background-image: repeating-linear-gradient(315deg, var(--pattern-fg) 0, var(--pattern-fg) 1px, transparent 0, transparent 50%);
+  background-size: 7px 7px;
+  background-attachment: fixed;
+}
+.dark .vline {
+  --pattern-fg: rgba(255, 255, 255, 0.25);
 }
 @property --tw-translate-x {
   syntax: "*";
