@@ -1,5 +1,8 @@
 /*! tailwindcss v4.1.13 | MIT License | https://tailwindcss.com */
 @layer properties;
+.pointer-events-none {
+  pointer-events: none;
+}
 .sr-only {
   position: absolute;
   width: 1px;
@@ -17,11 +20,23 @@
 .relative {
   position: relative;
 }
+.sticky {
+  position: sticky;
+}
 .top-1\/2 {
   top: calc(1/2 * 100%);
 }
 .left-1\/2 {
   left: calc(1/2 * 100%);
+}
+.-z-10 {
+  z-index: calc(10 * -1);
+}
+.z-10 {
+  z-index: 10;
+}
+.z-20 {
+  z-index: 20;
 }
 .col-span-2 {
   grid-column: span 2 / span 2;
@@ -50,6 +65,9 @@
 .hidden {
   display: none;
 }
+.inline-flex {
+  display: inline-flex;
+}
 .aspect-square {
   aspect-ratio: 1 / 1;
 }
@@ -64,6 +82,9 @@
 }
 .max-h-full {
   max-height: 100%;
+}
+.min-h-screen {
+  min-height: 100vh;
 }
 .w-full {
   width: 100%;
@@ -115,8 +136,14 @@
 .items-center {
   align-items: center;
 }
+.justify-between {
+  justify-content: space-between;
+}
 .justify-start {
   justify-content: flex-start;
+}
+.overflow-auto {
+  overflow: auto;
 }
 .overflow-hidden {
   overflow: hidden;
@@ -128,8 +155,34 @@
   border-style: var(--tw-border-style);
   border-width: 1px;
 }
+.border-t {
+  border-top-style: var(--tw-border-style);
+  border-top-width: 1px;
+}
+.border-b {
+  border-bottom-style: var(--tw-border-style);
+  border-bottom-width: 1px;
+}
 .bg-current {
   background-color: currentcolor;
+}
+.bg-\[linear-gradient\(to_right\,rgba\(120\,120\,128\,0\.15\)_1px\,transparent_1px\)\,linear-gradient\(to_bottom\,rgba\(120\,120\,128\,0\.15\)_1px\,transparent_1px\)\] {
+  background-image: linear-gradient(to right,rgba(120,120,128,0.15) 1px,transparent 1px),linear-gradient(to bottom,rgba(120,120,128,0.15) 1px,transparent 1px);
+}
+.bg-\[repeating-linear-gradient\(45deg\,transparent\,transparent_10px\,rgba\(120\,120\,128\,0\.06\)_10px\,rgba\(120\,120\,128\,0\.06\)_11px\)\] {
+  background-image: repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(120,120,128,0.06) 10px,rgba(120,120,128,0.06) 11px);
+}
+.\[mask-image\:radial-gradient\(70\%_70\%_at_50\%_20\%\,black\,transparent\)\] {
+  mask-image: radial-gradient(70% 70% at 50% 20%,black,transparent);
+}
+.\[mask-image\:radial-gradient\(80\%_80\%_at_50\%_20\%\,black\,transparent\)\] {
+  mask-image: radial-gradient(80% 80% at 50% 20%,black,transparent);
+}
+.bg-\[size\:24px_24px\] {
+  background-size: 24px 24px;
+}
+.bg-\[size\:32px_32px\] {
+  background-size: 32px 32px;
 }
 .object-cover {
   object-fit: cover;
@@ -140,14 +193,25 @@
 .text-center {
   text-align: center;
 }
+.text-balance {
+  text-wrap: balance;
+}
 .underline {
   text-decoration-line: underline;
+}
+.antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .opacity-0 {
   opacity: 0%;
 }
 .opacity-100 {
   opacity: 100%;
+}
+.shadow-\[inset_0_1px_0_rgba\(255\,255\,255\,0\.06\)\] {
+  --tw-shadow: inset 0 1px 0 var(--tw-shadow-color, rgba(255,255,255,0.06));
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 .transition {
   transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, content-visibility, overlay, pointer-events;
@@ -156,6 +220,11 @@
 }
 .transition-all {
   transition-property: all;
+  transition-timing-function: var(--tw-ease, ease);
+  transition-duration: var(--tw-duration, 0s);
+}
+.transition-transform {
+  transition-property: transform, translate, scale, rotate;
   transition-timing-function: var(--tw-ease, ease);
   transition-duration: var(--tw-duration, 0s);
 }
@@ -198,6 +267,13 @@
     }
   }
 }
+.hover\:opacity-90 {
+  &:hover {
+    @media (hover: hover) {
+      opacity: 90%;
+    }
+  }
+}
 .focus\:ring-4 {
   &:focus {
     --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
@@ -226,34 +302,39 @@
   }
   @keyframes wave {
     0% {
-      transform: rotate(0.0deg);
+      transform: rotate(0deg);
     }
     10% {
-      transform: rotate(14.0deg);
+      transform: rotate(14deg);
     }
     20% {
-      transform: rotate(-8.0deg);
+      transform: rotate(-8deg);
     }
     30% {
-      transform: rotate(14.0deg);
+      transform: rotate(14deg);
     }
     40% {
-      transform: rotate(-4.0deg);
+      transform: rotate(-4deg);
     }
     50% {
-      transform: rotate(10.0deg);
+      transform: rotate(10deg);
     }
     60% {
-      transform: rotate(0.0deg);
+      transform: rotate(0deg);
     }
     100% {
-      transform: rotate(0.0deg);
+      transform: rotate(0deg);
     }
   }
-  @layer utilities {
-    .debug-border {
-      border: 2px dashed red;
-    }
+  .bg-grid {
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: top left;
+  }
+  .bg-grid-dark {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: top left;
   }
 }
 @property --tw-translate-x {
@@ -310,10 +391,6 @@
   syntax: "*";
   inherits: false;
   initial-value: solid;
-}
-@property --tw-duration {
-  syntax: "*";
-  inherits: false;
 }
 @property --tw-shadow {
   syntax: "*";
@@ -380,6 +457,10 @@
   inherits: false;
   initial-value: 0 0 #0000;
 }
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
@@ -395,7 +476,6 @@
       --tw-skew-x: initial;
       --tw-skew-y: initial;
       --tw-border-style: solid;
-      --tw-duration: initial;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;
       --tw-shadow-alpha: 100%;
@@ -410,6 +490,7 @@
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-duration: initial;
     }
   }
 }
